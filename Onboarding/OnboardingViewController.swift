@@ -22,6 +22,18 @@ final class OnboardingViewController: UIPageViewController, UIPageViewController
         return [red, green, blue]
     }()
     
+    lazy var pageControl: UIPageControl = {
+        let pageControl = UIPageControl()
+        pageControl.numberOfPages = pages.count
+        pageControl.currentPage = 0
+        
+        pageControl.currentPageIndicatorTintColor = .brown
+        pageControl.pageIndicatorTintColor = .orange
+        
+        pageControl.translatesAutoresizingMaskIntoConstraints = false
+        return pageControl
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -31,6 +43,13 @@ final class OnboardingViewController: UIPageViewController, UIPageViewController
         if let first = pages.first {
             setViewControllers([first], direction: .forward, animated: true, completion: nil)
         }
+        
+        view.addSubview(pageControl)
+        
+        NSLayoutConstraint.activate([
+            pageControl.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            pageControl.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+        ])
     }
     
     // MARK: - UIPageViewControllerDataSource
@@ -63,13 +82,5 @@ final class OnboardingViewController: UIPageViewController, UIPageViewController
         }
         
         return pages[nextIndex]
-    }
-    
-    func presentationCount(for pageViewController: UIPageViewController) -> Int {
-        pages.count
-    }
-    
-    func presentationIndex(for pageViewController: UIPageViewController) -> Int {
-        0
     }
 }
